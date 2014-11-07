@@ -1,0 +1,32 @@
+{
+  "name": "kue-chain",
+  "version": "1.0.0",
+  "description": "Chain Kue jobs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rauno56/kue-chain.git"
+  },
+  "keywords": [
+    "kue",
+    "jobqueue",
+    "chaining",
+    "when",
+    "then"
+  ],
+  "author": "Rauno Viskus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rauno56/kue-chain/issues"
+  },
+  "homepage": "https://github.com/Rauno56/kue-chain",
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "kue": "^0.8.9",
+    "mocha": "^2.0.1",
+    "sinon": "^1.11.1"
+  }
+}
