@@ -10,7 +10,6 @@ function Parent(input) {
 util.inherits(Parent, Job);
 
 function Child(input) {
-	console.log('Child', arguments);
 	Job.call(this, fixtures.childType, {
 		input: input
 	});
