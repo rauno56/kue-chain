@@ -1,3 +1,5 @@
+var util = require('util');
+
 function constructorOf(Child, Super) {
 	if (Child === Super) return true;
 	if (!Child) {
@@ -13,17 +15,28 @@ function constructorOf(Child, Super) {
 	}
 }
 
+function constructorHandler(KueJob, Job, result, job) {
+	return new Job(result, job.data, job).save();
+}
+
+function callbackHandler(KueJob, Job, result, job) {
+	return Job(result, job.data, job, function (job) {
+		if (job instanceof KueJob) {
+			return job.save();
+		}
+		throw new Error(util.inspect(job) + ' is not instance of Kue job.');
+	}); 
+}
+
 function then(jobs, KueJob, jobType, Job) {
+	if ('function' !== typeof Job) {
+		throw new Error('Then-call needs a job constructor of a function.');
+	}
+	var handler = constructorOf(Job, KueJob) ? constructorHandler : callbackHandler;
 	jobs.on('job complete', function (id, result) {
 		KueJob.get(id, function (err, job) {
 			if (job.type === jobType) {
-				if (constructorOf(Job, KueJob)) {
-					new Job(result, job.data, job).save();
-				} else {
-					Job(result, job.data, job, function (job) {
-						job.save();
-					}); 
-				}
+				return handler(KueJob, Job, result, job);
 			}
 		});
 	});
