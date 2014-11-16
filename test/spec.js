@@ -37,6 +37,10 @@ describe('spec', function () {
 	});
 
 	describe(':then', function () {
+		it('should give error on invalid argument', function () {
+			expect(when(Parent).then).to.throwError();
+		});
+
 		it('should listen to complete events', function () {
 			when(Parent).then(Child);
 			expect(jobQueue.on.callCount).to.eql(1);
